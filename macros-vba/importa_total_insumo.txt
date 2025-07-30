@@ -1,0 +1,35 @@
+Sub importa_total_insumo()
+
+    Dim wsRel As Worksheet, wsEsc As Worksheet
+    Dim i As Long
+    Dim totalLinhas As Long
+
+    If ultimaLinhaRelatorio = 0 Then
+        MsgBox "A última linha do relatório não foi definida. Execute DesmesclarRelatorio primeiro.", vbCritical
+        Exit Sub
+    End If
+
+    Set wsRel = ThisWorkbook.Sheets("Relatório")
+    Set wsEsc = ThisWorkbook.Sheets("Escopo")
+
+    ' Etapa 1: Preservar os valores de desconto na coluna H antes de sobrescrever
+    For i = 13 To ultimaLinhaRelatorio
+        If LCase(Trim(wsRel.Cells(i, 6).Value)) = "desconto" Then ' Coluna F = 6
+            wsRel.Cells(i, 8).Value = wsRel.Cells(i, 9).Value ' Coluna H = 8, Coluna I = 9
+        End If
+    Next i
+
+    ' Etapa 2: Importar Total do Insumo da coluna H para coluna D da aba Escopo
+    totalLinhas = ultimaLinhaRelatorio - 12
+    wsEsc.Range("D2").Resize(totalLinhas, 1).Value = wsRel.Range("H13:H" & ultimaLinhaRelatorio).Value
+
+    ' Etapa 3: Substituir "Total dos insumos" por "Desconto" na coluna A da aba Escopo
+    For i = 2 To ultimaLinhaRelatorio
+        If LCase(Trim(wsEsc.Cells(i, 1).Value)) = "total dos insumos" Then
+            wsEsc.Cells(i, 1).Value = "Desconto"
+        End If
+    Next i
+
+    MsgBox "TOTAL DO INSUMO (e descontos) importado com sucesso!", vbInformation
+
+End Sub

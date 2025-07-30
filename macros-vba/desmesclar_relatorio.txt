@@ -1,0 +1,26 @@
+Sub desmesclar_relatorio()
+    Dim ws As Worksheet
+    Dim cel As Range
+    Dim resposta As Variant
+
+    Set ws = ThisWorkbook.Sheets("Relatório")
+
+    resposta = Application.InputBox("Digite a última linha com dados no relatório:", "Desmesclar", Type:=1)
+
+    If resposta = False Or Not IsNumeric(resposta) Then
+        MsgBox "Entrada inválida. Macro cancelada.", vbExclamation
+        Exit Sub
+    End If
+
+    ultimaLinhaRelatorio = CLng(resposta)
+
+    Application.ScreenUpdating = False
+    For Each cel In ws.Range("A1:S" & ultimaLinhaRelatorio)
+        If cel.MergeCells Then cel.UnMerge
+    Next cel
+    ws.Range("A:S").Columns.AutoFit
+    Application.ScreenUpdating = True
+
+    MsgBox "Desmesclagem concluída até a linha " & ultimaLinhaRelatorio, vbInformation
+    
+End Sub

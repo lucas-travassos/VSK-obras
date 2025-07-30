@@ -1,0 +1,18 @@
+Public ultimaLinhaRelatorio As Long
+
+Sub processa_dados_nf()
+    Call desmesclar_relatorio
+    Call limpa_importa_insumos
+    Call importa_quantidade_comprada
+    Call importa_unidade
+    Call importa_total_insumo
+    Call importa_valor_ipi
+    Call importa_custos_entrada
+    Call importa_pedido
+    Call importa_obra
+    Call importa_conta
+    Call importa_notas
+    Call importa_fornecedores
+    Call importa_data_movimento
+    Call limpar_linhas_inuteis
+End Sub

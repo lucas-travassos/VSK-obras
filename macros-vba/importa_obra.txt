@@ -1,0 +1,22 @@
+Sub importa_obra()
+    Dim wsRel As Worksheet, wsEsc As Worksheet
+    Dim rngOrigem As Range, rngDestino As Range
+
+    ' Verificação de dependência
+    If ultimaLinhaRelatorio = 0 Then
+        MsgBox "A última linha do relatório não foi definida. Execute DesmesclarRelatorio primeiro.", vbCritical
+        Exit Sub
+    End If
+
+    Set wsRel = ThisWorkbook.Sheets("Relatório")
+    Set wsEsc = ThisWorkbook.Sheets("Escopo")
+
+    ' Copiar OBRA
+    Set rngOrigem = wsRel.Range("R13:R" & ultimaLinhaRelatorio)
+    Set rngDestino = wsEsc.Range("H2").Resize(rngOrigem.Rows.Count, 1)
+
+    rngDestino.Value = rngOrigem.Value
+
+    MsgBox "OBRA importada com sucesso!", vbInformation
+
+End Sub

@@ -1,0 +1,21 @@
+Sub importa_custos_entrada()
+    Dim wsRel As Worksheet, wsEsc As Worksheet
+    Dim rngOrigem As Range, rngDestino As Range
+
+    ' Verificação de dependência
+    If ultimaLinhaRelatorio = 0 Then
+        MsgBox "A última linha do relatório não foi definida. Execute DesmesclarRelatorio primeiro.", vbCritical
+        Exit Sub
+    End If
+
+    Set wsRel = ThisWorkbook.Sheets("Relatório")
+    Set wsEsc = ThisWorkbook.Sheets("Escopo")
+
+    ' Copiar CUSTOS DE ENTRADA
+    Set rngOrigem = wsRel.Range("L13:L" & ultimaLinhaRelatorio)
+    Set rngDestino = wsEsc.Range("F2").Resize(rngOrigem.Rows.Count, 1)
+
+    rngDestino.Value = rngOrigem.Value
+
+    MsgBox "CUSTOS DE ENTRADA importado com sucesso!", vbInformation
+End Sub

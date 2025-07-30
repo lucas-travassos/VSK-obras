@@ -1,0 +1,21 @@
+Sub importa_valor_ipi()
+    Dim wsRel As Worksheet, wsEsc As Worksheet
+    Dim rngOrigem As Range, rngDestino As Range
+
+    ' Verificação de dependência
+    If ultimaLinhaRelatorio = 0 Then
+        MsgBox "A última linha do relatório não foi definida. Execute DesmesclarRelatorio primeiro.", vbCritical
+        Exit Sub
+    End If
+
+    Set wsRel = ThisWorkbook.Sheets("Relatório")
+    Set wsEsc = ThisWorkbook.Sheets("Escopo")
+
+    ' Copiar VALOR DO IPI
+    Set rngOrigem = wsRel.Range("J13:J" & ultimaLinhaRelatorio)
+    Set rngDestino = wsEsc.Range("E2").Resize(rngOrigem.Rows.Count, 1)
+
+    rngDestino.Value = rngOrigem.Value
+
+    MsgBox "VALOR DO IPI importado com sucesso!", vbInformation
+End Sub

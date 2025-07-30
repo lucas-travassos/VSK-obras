@@ -1,0 +1,15 @@
+Sub importa_quantidade_comprada()
+    Dim wsRel As Worksheet, wsEsc As Worksheet
+    Dim rngOrigem As Range, rngDestino As Range
+
+    Set wsRel = ThisWorkbook.Sheets("Relatório")
+    Set wsEsc = ThisWorkbook.Sheets("Escopo")
+
+    ' Copiar QUANTIDADE COMPRADA
+    Set rngOrigem = wsRel.Range("E13:E" & ultimaLinhaRelatorio)
+    Set rngDestino = wsEsc.Range("B2").Resize(rngOrigem.Rows.Count, 1)
+
+    rngDestino.Value = rngOrigem.Value
+
+    MsgBox "QUANTIDADE COMPRADA importada com sucesso!", vbInformation
+End Sub

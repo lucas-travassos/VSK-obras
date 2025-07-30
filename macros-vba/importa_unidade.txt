@@ -1,0 +1,15 @@
+Sub importa_unidade()
+    Dim wsRel As Worksheet, wsEsc As Worksheet
+    Dim rngOrigem As Range, rngDestino As Range
+
+    Set wsRel = ThisWorkbook.Sheets("Relatório")
+    Set wsEsc = ThisWorkbook.Sheets("Escopo")
+
+    ' Copiar UNIDADE
+    Set rngOrigem = wsRel.Range("G13:G" & ultimaLinhaRelatorio)
+    Set rngDestino = wsEsc.Range("C2").Resize(rngOrigem.Rows.Count, 1)
+
+    rngDestino.Value = rngOrigem.Value
+
+    MsgBox "UN. (Unidade) importada com sucesso!", vbInformation
+End Sub

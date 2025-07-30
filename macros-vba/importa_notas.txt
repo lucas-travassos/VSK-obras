@@ -1,0 +1,30 @@
+Sub importa_notas()
+    Dim wsRel As Worksheet, wsEsc As Worksheet
+    Dim i As Long
+    Dim notaAtual As Variant
+    Dim totalLinhas As Long
+
+    ' Verificação da linha final
+    If ultimaLinhaRelatorio = 0 Then
+        MsgBox "A última linha do relatório não foi definida. Execute DesmesclarRelatorio primeiro.", vbCritical
+        Exit Sub
+    End If
+
+    Set wsRel = ThisWorkbook.Sheets("Relatório")
+    Set wsEsc = ThisWorkbook.Sheets("Escopo")
+
+    ' Etapa 1: Preencher coluna B com o valor da última "Nota" encontrada, a partir da linha 9
+    For i = 9 To ultimaLinhaRelatorio
+        If LCase(Trim(wsRel.Cells(i, 1).Value)) = "nota" Then
+            notaAtual = wsRel.Cells(i, 2).Value
+        ElseIf Not IsEmpty(notaAtual) Then
+            wsRel.Cells(i, 2).Value = notaAtual
+        End If
+    Next i
+
+    ' Etapa 2: Copiar valores de B13:B... para J2:J... na aba "Escopo"
+    totalLinhas = ultimaLinhaRelatorio - 12 ' de linha 13 em diante
+    wsEsc.Range("J2").Resize(totalLinhas, 1).Value = wsRel.Range("B13:B" & ultimaLinhaRelatorio).Value
+
+    MsgBox "NOTAS importadas com sucesso!", vbInformation
+End Sub

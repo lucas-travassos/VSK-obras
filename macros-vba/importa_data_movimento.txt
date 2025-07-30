@@ -1,0 +1,29 @@
+Sub importa_data_movimento()
+    Dim wsRel As Worksheet, wsEsc As Worksheet
+    Dim i As Long
+    Dim dataAtual As Variant
+    Dim totalLinhas As Long
+
+    If ultimaLinhaRelatorio = 0 Then
+        MsgBox "A última linha do relatório não foi definida. Execute DesmesclarRelatorio primeiro.", vbCritical
+        Exit Sub
+    End If
+
+    Set wsRel = ThisWorkbook.Sheets("Relatório")
+    Set wsEsc = ThisWorkbook.Sheets("Escopo")
+
+    ' Etapa 1: Preencher coluna C com valor da Data do Movimento
+    For i = 1 To ultimaLinhaRelatorio
+        If LCase(Trim(wsRel.Cells(i, 1).Value)) = "data do movimento" Then
+            dataAtual = wsRel.Cells(i, 3).Value ' Coluna C = 3
+        ElseIf Not IsEmpty(dataAtual) Then
+            wsRel.Cells(i, 3).Value = dataAtual
+        End If
+    Next i
+
+    ' Etapa 2: Copiar para aba "Escopo"
+    totalLinhas = ultimaLinhaRelatorio - 12
+    wsEsc.Range("L2").Resize(totalLinhas, 1).Value = wsRel.Range("C13:C" & ultimaLinhaRelatorio).Value
+
+    MsgBox "DATA DO MOVIMENTO importada com sucesso!", vbInformation
+End Sub

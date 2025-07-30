@@ -1,0 +1,21 @@
+Sub importa_pedido()
+    Dim wsRel As Worksheet, wsEsc As Worksheet
+    Dim rngOrigem As Range, rngDestino As Range
+
+    ' Verificação de dependência
+    If ultimaLinhaRelatorio = 0 Then
+        MsgBox "A última linha do relatório não foi definida. Execute DesmesclarRelatorio primeiro.", vbCritical
+        Exit Sub
+    End If
+
+    Set wsRel = ThisWorkbook.Sheets("Relatório")
+    Set wsEsc = ThisWorkbook.Sheets("Escopo")
+
+    ' Copiar PEDIDO
+    Set rngOrigem = wsRel.Range("P13:P" & ultimaLinhaRelatorio)
+    Set rngDestino = wsEsc.Range("G2").Resize(rngOrigem.Rows.Count, 1)
+
+    rngDestino.Value = rngOrigem.Value
+
+    MsgBox "PEDIDO importado com sucesso!", vbInformation
+End Sub
