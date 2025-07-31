@@ -1,0 +1,30 @@
+Sub limpar_linhas_inuteis()
+    Dim wsEsc As Worksheet
+    Dim i As Long
+    Dim valorCelula As String
+
+    If ultimaLinhaRelatorio = 0 Then
+        MsgBox "A última linha do relatório não foi definida. Execute DesmesclarRelatorio primeiro.", vbCritical
+        Exit Sub
+    End If
+
+    Set wsEsc = ThisWorkbook.Sheets("Escopo")
+
+    ' Limpar da última para a segunda linha (evita quebra ao deletar)
+    For i = ultimaLinhaRelatorio To 2 Step -1
+        valorCelula = LCase(Trim(wsEsc.Cells(i, 1).Value))
+
+        If valorCelula = "" _
+            Or valorCelula = "totais" _
+            Or valorCelula = "frete incluso" _
+            Or valorCelula = "nota" _
+            Or valorCelula = "data do movimento" _
+            Or valorCelula = "insumo" _
+            Or valorCelula = "total da nota" Then
+
+            wsEsc.Rows(i).Delete
+        End If
+    Next i
+
+    MsgBox "Linhas irrelevantes removidas com sucesso da aba 'Escopo'!", vbInformation
+End Sub

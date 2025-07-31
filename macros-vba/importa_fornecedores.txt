@@ -1,0 +1,30 @@
+Sub importa_fornecedores()
+    Dim wsRel As Worksheet, wsEsc As Worksheet
+    Dim i As Long
+    Dim fornecedorAtual As Variant
+    Dim totalLinhas As Long
+
+    ' Verifica se a variável global foi definida
+    If ultimaLinhaRelatorio = 0 Then
+        MsgBox "A última linha do relatório não foi definida. Execute DesmesclarRelatorio primeiro.", vbCritical
+        Exit Sub
+    End If
+
+    Set wsRel = ThisWorkbook.Sheets("Relatório")
+    Set wsEsc = ThisWorkbook.Sheets("Escopo")
+
+    ' Etapa 1: Preencher a coluna I com o fornecedor atual a partir da linha 9
+    For i = 9 To ultimaLinhaRelatorio
+        If LCase(Trim(wsRel.Cells(i, 6).Value)) = "fornecedor" Then  ' Coluna F = 6
+            fornecedorAtual = wsRel.Cells(i, 9).Value ' Coluna I = 9
+        ElseIf Not IsEmpty(fornecedorAtual) Then
+            wsRel.Cells(i, 9).Value = fornecedorAtual
+        End If
+    Next i
+
+    ' Etapa 2: Copiar valores da coluna I para a coluna K da aba "Escopo"
+    totalLinhas = ultimaLinhaRelatorio - 12 ' Começa em I13
+    wsEsc.Range("K2").Resize(totalLinhas, 1).Value = wsRel.Range("I13:I" & ultimaLinhaRelatorio).Value
+
+    MsgBox "FORNECEDORES importados com sucesso!", vbInformation
+End Sub

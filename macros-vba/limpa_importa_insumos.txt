@@ -1,0 +1,9 @@
+Sub limpa_importa_insumos()
+    Dim wsRel As Worksheet, wsEsc As Worksheet
+    Dim rngOrigem As Range, rngDestino As Range
+
+    ' Verifica se a variável pública está definida
+    If ultimaLinhaRelatorio = 0 Then
+        MsgBox "A última linha do relatório não foi definida. Execute o DesmesclarRelatorio primeiro.", vbCritical
+        Exit Sub
+    End If
